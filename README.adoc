@@ -1,0 +1,63 @@
+= go continuous delivery agent
+
+This is a base image for a go cd agent. It only offers a JDK as resource.
+For adding other resources, a new agent image may extend this image. See <<Extending the image>>.
+
+== Setting up a docker container
+
+.Build
+[source,shell]
+----
+docker build -t softwarecraftsmen/go-cdagent .
+----
+
+== Starting a Docker container
+
+[source,shell]
+----
+docker run -tid --name go-cdagent --hostname go-cdagent \
+   --net go-cd \ <1>
+   -e AGENT_RESOURCES=JDK8 \ <2>
+   softwarecraftsmen/go-cdagent
+----
+
+<1> Container is added to the network `go-cd`
+<2> Add a resource `JDK8`. This indicates that the agent is for example able to offer a JDK.
+
+[cols="2*"]
+|===
+| GO_SERVER
+| The hostname of the go-cd server that the agent connects to. Default go-cdserver
+
+| AGENT_KEY
+| The key used by agents to https://docs.go.cd/current/advanced_usage/agent_auto_register.html[auto-register]
+
+| AGENT_RESOURCES
+| The agent resources attached to the agent.
+
+| AGENT_ENVIRONMENT
+| The agent https://docs.go.cd/current/configuration/managing_environments.html[environment] attached to the agent.
+
+|===
+
+
+== Extending the image
+
+We could for example offer an agent that is able to provide a Node-js package manager.
+
+[source,shell]
+----
+FROM softwarecraftsmen/go-cdagent
+RUN apt-get install npm
+----
+
+[source,shell]
+----
+docker run -tid --name go-cdagent-npm --hostname go-cdagent-npm \
+   --net go-cd \ <1>
+   -e AGENT_RESOURCES=NPM \ <2>
+   softwarecraftsmen/go-cdagent-npm
+----
+
+<1> Container is added to the network `go-cd`
+<2> Add a resource `npm`. This indicates that the agent is for example able to offer a Node.js package manager.
