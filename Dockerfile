@@ -5,7 +5,7 @@ MAINTAINER Software Craftsmen GmbH und CoKG <office@software-craftsmen.at>
 
 RUN apt-get update && \
     echo "deb https://download.go.cd /" | sudo tee /etc/apt/sources.list.d/gocd.list && \
-    apt-get install -y wget apt-transport-https python-software-properties software-properties-common && \
+    apt-get install -y apt-transport-https python-software-properties software-properties-common && \
     wget -O - https://download.go.cd/GOCD-GPG-KEY.asc | sudo apt-key add - && \
     add-apt-repository -y ppa:openjdk-r/ppa && \
     apt-get update && \
