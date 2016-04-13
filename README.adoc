@@ -33,10 +33,10 @@ docker run -tid --name go-cdagent --hostname go-cdagent \
 | The key used by agents to https://docs.go.cd/current/advanced_usage/agent_auto_register.html[auto-register]
 
 | AGENT_RESOURCES
-| The agent resources attached to the agent.
+| The agent https://docs.go.cd/current/advanced_usage/agent_auto_register.html[resources] attached to the agent.
 
 | AGENT_ENVIRONMENT
-| The agent https://docs.go.cd/current/configuration/managing_environments.html[environment] attached to the agent.
+| The agent https://docs.go.cd/current/advanced_usage/agent_auto_register.html[environments] attached to the agent.
 
 |===
 
