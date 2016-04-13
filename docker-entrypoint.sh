@@ -1,5 +1,23 @@
 #!/bin/bash
 
+if [ ! -f "/var/go/.ssh/id_rsa" ] ; then
+  mkdir -p /var/go/.ssh
+  ssh-keygen -C "docker-go-cdagent" -N '' -f /var/go/.ssh/id_rsa
+  chown -R go:go /var/go/.ssh
+  eval "$(ssh-agent -s)"
+  ssh-add /var/go/.ssh/id_rsa
+
+  # Dump the public key so we can use it later (e.g. accessing a Git repo using ssh)
+  echo "######"
+  echo "# The go-cdagent SSH public key"
+  cat /var/go/.ssh/id_rsa.pub
+  echo "######"
+
+  #http://askubuntu.com/questions/123072/ssh-automatically-accept-keys
+  ssh-keyscan -H bitbucket.org >> /var/go/.ssh/known_hosts
+  ssh-keyscan -H github.com >> /var/go/.ssh/known_hosts
+fi
+
 GO_SERVER=${GO_SERVER:-go-cdserver}
 
 sed -i -e 's/GO_SERVER=.*/GO_SERVER='$GO_SERVER'/' /etc/default/go-agent
