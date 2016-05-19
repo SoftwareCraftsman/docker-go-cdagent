@@ -31,4 +31,11 @@ echo "agent.auto.register.key=$AGENT_KEY" >/var/lib/go-agent/config/autoregister
 if [ -n "$AGENT_RESOURCES" ]; then echo "agent.auto.register.resources=$AGENT_RESOURCES" >>/var/lib/go-agent/config/autoregister.properties; fi
 if [ -n "$AGENT_ENVIRONMENTS" ]; then echo "agent.auto.register.environments=$AGENT_ENVIRONMENTS" >>/var/lib/go-agent/config/autoregister.properties; fi
 
+if [ -f "/var/lib/go-agent/.agent-bootstrapper.running" ] ; then
+    echo "######"
+    echo "Detected improper previous shutdown. Lock file /var/lib/go-agent/.agent-bootstrapper.running will be deleted!"
+    rm -v -f /var/lib/go-agent/.agent-bootstrapper.running
+    echo "######"
+fi
+
 exec /etc/init.d/go-agent start
