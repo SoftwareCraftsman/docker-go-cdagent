@@ -18,7 +18,7 @@ if [ ! -f "/var/go/.ssh/id_rsa" ] ; then
   ssh-keyscan -H github.com >> /var/go/.ssh/known_hosts
 fi
 
-GO_SERVER=${GO_SERVER:-go-cdserver}
+GO_SERVER=${GO_SERVER:-buildserver}
 
 sed -i -e 's/GO_SERVER=.*/GO_SERVER='$GO_SERVER'/' /etc/default/go-agent
 
